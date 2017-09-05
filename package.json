@@ -22,11 +22,16 @@
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
     "body-parser": "^1.17.2",
-    "bootstrap": "^4.0.0-alpha.6",
+    "bootstrap": "^4.0.0-beta",
     "core-js": "^2.4.1",
     "express": "^4.15.4",
+    "install": "^0.10.1",
+    "jquery": "^3.2.1",
     "mongodb": "^2.2.31",
+    "npm": "^5.4.0",
+    "popper": "^1.0.0",
     "rxjs": "^5.4.2",
+    "tether": "^1.4.0",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
