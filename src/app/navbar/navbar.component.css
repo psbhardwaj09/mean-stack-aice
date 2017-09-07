@@ -1,0 +1,15 @@
+.navbar-default{
+  background:transparent;
+  background-image: url('../../assets/images/banner_bg.jpg');
+  border-color:transparent;
+  box-shadow:none;
+  color: #fff;
+}
+
+.navbar-brand{
+  color: #fff;
+}
+
+/* .navbar-brand, .nav-item > a{
+  color: #fff;
+} */

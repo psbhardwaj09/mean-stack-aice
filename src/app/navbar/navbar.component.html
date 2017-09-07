@@ -1,9 +1,8 @@
-Header Bar
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+<nav class="navbar navbar-expand-lg navbar-default bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">
-        <!-- <img src="http://placehold.it/300x60?text=Logo" width="150" height="30" alt=""> -->
-        <h3>AICE</h3>
+      <a class="navbar-brand" href="#" >
+        <img src="../../assets/images/aice_logo.png" width="200" height="50" alt="">
+
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -16,26 +15,43 @@ Header Bar
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About Us</a>
+            <a class="nav-link" routerLink="/aboutus" routerLinkActive="active">About Us</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">AICE Centres</a>
+            <a class="nav-link" routerLink="courses" routerLinkActive="active">Courses</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Courses</a>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="examinationDropDownList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Examination
+            </a>
+            <div class="dropdown-menu" aria-labelledby="examinationDropDownList">
+              <a class="dropdown-item"  routerLink="/result" routerLinkActive="active">Results</a>
+              <a class="dropdown-item"  routerLink="/onlineExam" routerLinkActive="active">Online Examination</a>
+              
+            </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Inquiry</a>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="onlineInfoDropDownList" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Online Info
+            </a>
+            <div class="dropdown-menu" aria-labelledby="onlineInfoDropDownList">
+              <a class="dropdown-item" routerLink="/studentRegistraion" routerLinkActive="active">Online Admission</a>
+              <a class="dropdown-item" routerLink="/verifyRegistraion" routerLinkActive="active">Admission Verification</a>
+            </div>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link" href="#">Contact Us</a>
+            <a class="nav-link" routerLink="/contactus" routerLinkActive="active">Contact Us</a>
           </li>
 
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+        <!-- <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
           <button class="btn my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        </form> -->
       </div>
     </div>
   </nav>
+

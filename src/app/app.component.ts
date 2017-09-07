@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 // Import the DataService
 import { DataService } from './data.service';
+import 'hammerjs';
 
 @Component({
   selector: 'app-root',
