@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import 'hammerjs';
 
@@ -24,6 +25,8 @@ import { AboutusComponent } from './aboutus/aboutus.component';
 
 import { MdButtonModule, MdCardModule, MdSelectModule,
   MdNativeDateModule, MdInputModule, MdIconModule, MdDatepickerModule } from '@angular/material';
+
+import { RegistrationDataService } from './studentregistration/studentregistration.service'
 
 
 
@@ -72,7 +75,7 @@ const ROUTES: Routes = [
     MdDatepickerModule,
     MdNativeDateModule
   ],
-  providers: [DataService], // <-Add DataService
+  providers: [DataService, RegistrationDataService], // <-Add DataService
   bootstrap: [AppComponent]
 })
 export class AppModule { }
