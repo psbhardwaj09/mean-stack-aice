@@ -23,11 +23,12 @@ const sendError = (err, res) => {
 let response = {
     status: 200,
     data: [],
-    message: null
+    message: 'Data Fetched'
 };
 
 // Get users
 router.get('/students', (req, res) => {
+    console.log('/students/Request : ', req.body);
     connection((db) => {
         db.collection('students')
             .find()
@@ -40,6 +41,14 @@ router.get('/students', (req, res) => {
                 sendError(err, res);
             });
     });
+});
+
+router.post('/register', (req, res)=>{
+
+    console.log("/Register/",req.body.firstName);
+     response.message ="Registred successfully"
+   res.json(response);
+
 });
 
 module.exports = router;
