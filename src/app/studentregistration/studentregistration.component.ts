@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
-import { RegistrationData } from './studentregistration.model'
-import { RegistrationDataService } from './studentregistration.service'
+
+import { RegistrationData } from './studentregistration.model';
+import { RegistrationDataService } from './studentregistration.service';
 import { Http } from '@angular/http';
 
 @Component({
@@ -11,38 +12,43 @@ import { Http } from '@angular/http';
 })
 
 
-export class StudentregistrationComponent {
+export class StudentregistrationComponent implements OnInit {
   EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   emailFormControl: any;
-  public registerData :{} ;
-  public registrationModel :{};
-  
 
+  registerData: {};
+  public registrationModel: {};
+  firstName: string;
+  lastName: string;
+  email: string;
+  selectedPhoto: any;
 
-  constructor(private http: Http) { 
-      this.registerData = {
+  constructor(private _dataService: RegistrationDataService) {
+    this.registerData = {
 			firstName: '',
 			lastName: '',
 			email: '',
-      phone :'',
-      address:''
-    }
+      phone: '',
+      address: ''
+    };
   }
 
-  registration(model){
-    this.registrationModel = {
-      firstName: model.firstName,
-			lastName: model.lastName,
-			email: model.email,
-      phone :model.phone,
-      address:model.address
-    };
-    this.http.post('/api/developers/add', this.registrationModel).subscribe(
-				(data => {
-					
-			        console.log("regidtrationData"+this.registrationModel);
-			 	})
-			);      
+  ngOnInit() {
+    this.emailFormControl = new FormControl('', [
+      Validators.required,
+      Validators.pattern(this.EMAIL_REGEX)]);
   }
- 
+
+  uploadImage(fileObj) {
+    this.selectedPhoto = fileObj.path[0].files[0];
+    console.log('Selected FIle :', fileObj);
+  }
+
+  registerStudent(formValues) {
+   const formData = new FormData();
+   formData.append('selectedPhoto', this.selectedPhoto);
+   this._dataService.register(formData).subscribe(response => console.log(response));
+  }
 }
+
+

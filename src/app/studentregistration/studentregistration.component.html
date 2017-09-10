@@ -3,7 +3,7 @@
         <strong>Registration</strong>
     </div>
     <div class="card-block">
-        <form  #registrationForm="ngForm" novalidate (ngSubmit)="registration(registrationForm.value)" >
+        <form  #registrationForm="ngForm" novalidate (ngSubmit)="registerStudent(registrationForm.value)" >
               <div class="form-group1">
                 <md-form-field >
                   <input mdInput placeholder="First Name" [(ngModel)]="registerData.firstName" name="firstName">
@@ -36,17 +36,21 @@
                   <md-form-field >
                     <input mdInput placeholder="phone" [(ngModel)]="registerData.phone" name="phone">
                   </md-form-field>
-              </div>     
+              </div>
               <div class="form-group1">
                   <md-form-field >
                     <input mdInput placeholder="address" [(ngModel)]="registerData.address" name="address">
                   </md-form-field>
+              </div>
+              <div class="form-group">
+                <input type="file" value="Choose photo.." (change)="uploadImage($event)">
               </div>
               <div class="button-row">
                   <button md-raised-button color="primary" type="submit">Submit</button>
               </div>
         </form>
     </div>
+
 </div>
 
 
