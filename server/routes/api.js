@@ -42,9 +42,15 @@ router.post('/registration', (req, res) => {
 
   var form = new multiparty.Form();
   var temporal_path, originalFileName, size;
+  var studentData ={};
+
+  var folderPath = '/../../src/assets/UploadedFiles';
+  var uploadFilePath = __dirname + folderPath;
+  var targetPath;
 
   form.on('field', function (field, value) {
     console.log(" addLogFile() -> field : "+ field+", \t value : "+ value);
+    studentData[field] = value;
   });
 
   /* Parse the form submitted from UI */
@@ -55,8 +61,10 @@ router.post('/registration', (req, res) => {
     originalFileName = file.originalFilename;
     size = Number(file.size)/1000;
 
-    var folderPath = '/../../src/assets/UploadedFiles';
-    var uploadFilePath = __dirname + folderPath;
+    targetPath = uploadFilePath +"/" + originalFileName;
+
+    studentData["image"] = originalFileName;
+
     if(!fs.existsSync(uploadFilePath)) {
         fs.mkdir(uploadFilePath, 0777, function (err) {
           if (err) console.error(err);
@@ -66,7 +74,7 @@ router.post('/registration', (req, res) => {
       });
     }
 
-    var targetPath = uploadFilePath +"/" + originalFileName;
+
     console.log('targetPath : '+ targetPath);
 
     fs.rename(temporal_path, targetPath, function(error) {
@@ -91,6 +99,11 @@ router.post('/registration', (req, res) => {
   form.on('error', function(err) {
     console.log('Error parsing form: ' + err.stack);
   });
+
+  form.on('close', function(){
+    console.log('Form Close -> Student Data : \n' + JSON.stringify(studentData));
+
+  })
 
   form.parse(req);
 });

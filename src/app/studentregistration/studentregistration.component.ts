@@ -47,6 +47,7 @@ export class StudentregistrationComponent implements OnInit {
   registerStudent(formValues) {
    const formData = new FormData();
    formData.append('selectedPhoto', this.selectedPhoto);
+   formData.append('firstName', formValues.firstName);
    this._dataService.register(formData).subscribe(response => console.log(response));
   }
 }
