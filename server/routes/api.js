@@ -34,7 +34,6 @@ const sendError = (err, res) => {
 let response = {
     status: 200,
     data: [],
-    message: "Message"
 };
 
 // Get users
@@ -85,6 +84,7 @@ router.post('/registration', (req, res) => {
         res.end("Uploaded successfully");
         console.log("Uploaded successfully");
       }
+
     });
   });
 
@@ -94,9 +94,6 @@ router.post('/registration', (req, res) => {
 
   form.parse(req);
 });
-
-
-
 
 function copy(oldPath, newPath, req, res) {
   console.log('oldPath : '+ oldPath);

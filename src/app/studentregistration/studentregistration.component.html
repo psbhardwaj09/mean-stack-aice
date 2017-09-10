@@ -1,63 +1,56 @@
-
 <div class="card col-md-6 col-sm-8 col-xs-12 mx-auto registration-form ">
     <div class="card-header" style="margin-left: -15px; margin-right: -15px;">
         <strong>Registration</strong>
-      </div>
-      <div class="card-block">
-<form class="">
-    <div class="form-group1">
-      <md-form-field >
-        <input mdInput placeholder="First Name" [value]="firstName">
-      </md-form-field>
     </div>
-    <div class="form-group1">
-      <md-form-field >
-        <input mdInput placeholder="Last Name" [value]="lastName">
-      </md-form-field>
-    </div>
-
-    <div class="form-group">
-        <md-select placeholder="Gender" [(ngModel)]="selectedValue" name="gender">
-            <md-option value="Male"> Male </md-option>
-            <md-option value="Female"> Female </md-option>
-          </md-select>
-    </div>
-
-    <div class="form-group1">
-        <md-form-field >
-          <input mdInput [mdDatepicker]="picker" placeholder="Date of Birth">
-          <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
-          <md-datepicker #picker></md-datepicker>
-        </md-form-field>
-      </div>
-
-      <div class="form-group1">
-        <md-form-field >
-            <input mdInput placeholder="Email" [formControl]="emailFormControl" [value]="email">
-            <md-error *ngIf="emailFormControl.hasError('pattern')">
-              Please enter a valid email address
-            </md-error>
-            <md-error *ngIf="emailFormControl.hasError('required')">
-              Email is <strong>required</strong>
-            </md-error>
-        </md-form-field>
-
-        <label class="custom-file" style="width:100%">
-          <input type="file" id="selectFile" class="custom-file-input" (change)="uploadImage($event)"  >
-          <span class="custom-file-control"></span>
-        </label>
-
-        <div class="form-group">
-          <input type="file" value="Choose photo.." (change)="uploadImage($event)">
-        </div>
-
-      <button md-raised-button color="primary" (click)='registerStudent()'>Submit</button>
-      <button md-raised-button color="default" (click)='registerStudent()'>Reset</button>
+    <div class="card-block">
+        <form  #registrationForm="ngForm" novalidate (ngSubmit)="registerStudent(registrationForm.value)" >
+              <div class="form-group1">
+                <md-form-field >
+                  <input mdInput placeholder="First Name" [(ngModel)]="registerData.firstName" name="firstName">
+                </md-form-field>
+              </div>
+              <div class="form-group1">
+                <md-form-field >
+                  <input mdInput placeholder="Last Name" [(ngModel)]="registerData.lastName" name="lastName">
+                </md-form-field>
+              </div>
+              <div class="form-group">
+                  <md-select placeholder="Gender" [(ngModel)]="registerData.selectedValue" name="gender">
+                      <md-option value="Male"> Male </md-option>
+                      <md-option value="Female"> Female </md-option>
+                    </md-select>
+              </div>
+              <div class="form-group1">
+                  <md-form-field >
+                    <input mdInput [mdDatepicker]="picker" placeholder="Date of Birth" [(ngModel)]="registerData.dob" name="dob">
+                    <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
+                    <md-datepicker #picker></md-datepicker>
+                  </md-form-field>
+              </div>
+              <div class="form-group1">
+                  <md-form-field >
+                      <input mdInput placeholder="Email" [(ngModel)]="registerData.email" name="email">
+                  </md-form-field>
+              </div>
+              <div class="form-group1">
+                  <md-form-field >
+                    <input mdInput placeholder="phone" [(ngModel)]="registerData.phone" name="phone">
+                  </md-form-field>
+              </div>
+              <div class="form-group1">
+                  <md-form-field >
+                    <input mdInput placeholder="address" [(ngModel)]="registerData.address" name="address">
+                  </md-form-field>
+              </div>
+              <div class="form-group">
+                <input type="file" value="Choose photo.." (change)="uploadImage($event)">
+              </div>
+              <div class="button-row">
+                  <button md-raised-button color="primary" type="submit">Submit</button>
+              </div>
+        </form>
     </div>
 
-
-</form>
-</div>
 </div>
 
 
