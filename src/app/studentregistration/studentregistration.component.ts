@@ -22,6 +22,7 @@ export class StudentregistrationComponent implements OnInit {
   lastName: string;
   email: string;
   selectedPhoto: any;
+  selectedAadhar: any;
 
   constructor(private _dataService: RegistrationDataService) {
     this.registerData = {
@@ -44,9 +45,21 @@ export class StudentregistrationComponent implements OnInit {
     console.log('Selected FIle :', fileObj);
   }
 
+  uploadAadhar(aadharObj) {
+    this.selectedAadhar= aadharObj.path[0].files[0];
+    console.log('Selected FIle :', this.selectedAadhar);
+  }
+
   registerStudent(formValues) {
-   const formData = new FormData();
+   let formData = new FormData();
    formData.append('selectedPhoto', this.selectedPhoto);
+   formData.append('selectedAadhar', this.selectedAadhar);
+   formData.append('firstName', formValues.firstName);
+   formData.append('lastName', formValues.lastName);
+   formData.append('email', formValues.email);
+   formData.append('phone', formValues.phone);
+   formData.append('address', formValues.address);
+   
    this._dataService.register(formData).subscribe(response => console.log(response));
   }
 }
