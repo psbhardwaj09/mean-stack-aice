@@ -8,10 +8,11 @@ const app = express();
 
 // API file for interacting with MongoDB
 const api = require('./server/routes/api');
+const result = require('./server/routes/result');
 
 // Parsers
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Angular DIST output folder
 app.use(express.static(path.join(__dirname, 'dist')));
@@ -22,23 +23,25 @@ mongoose.connect('mongodb://localhost:27017/acme_skills_db', { useMongoClient: t
 var db = mongoose.connection;
 
 
-db.on('connected', ()=>{
+db.on('connected', () => {
     console.log('Connected to MongoDB @ 27017');
 });
 
-mongoose.connection.on('error', (error)=>{
-    if(error){
-        console.log('Error while Connecting to database : '+ error);
+mongoose.connection.on('error', (error) => {
+    if (error) {
+        console.log('Error while Connecting to database : ' + error);
     }
 });
 
 db.once('open', function() {
-  console.log('Connecte to database');
+    console.log('Connect to database');
 
 });
 
 // API location
 app.use('/api', api);
+// API location
+app.use('/result', result);
 
 // Send all other requests to the Angular app
 app.get('*', (req, res) => {
