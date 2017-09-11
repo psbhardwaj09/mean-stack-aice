@@ -52,8 +52,8 @@ export class StudentregistrationComponent implements OnInit {
 
   registerStudent(formValues) {
    const formData = new FormData();
-   formData.append('selectedPhoto', this.selectedPhoto);
-   formData.append('selectedAadhar', this.selectedAadhar);
+   formData.append('profilePhoto', this.selectedPhoto);
+   formData.append('supportingDoc', this.selectedAadhar);
    formData.append('firstName', formValues.firstName);
    formData.append('lastName', formValues.lastName);
    formData.append('email', formValues.email);
