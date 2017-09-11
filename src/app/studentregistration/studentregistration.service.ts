@@ -6,7 +6,10 @@ import { Http } from '@angular/http';
 export class RegistrationDataService {
 
     result;
+    dataForPreview = {};
+
     private registrationData: RegistrationData = new RegistrationData();
+    public saveFormModel ;
     constructor(private _http: Http) {}
 
     getFormData(): RegistrationData {

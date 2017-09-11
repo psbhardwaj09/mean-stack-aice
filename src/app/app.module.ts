@@ -22,6 +22,7 @@ import { ExaminationComponent } from './examination/examination.component';
 import { VerifyadmissionComponent } from './verifyadmission/verifyadmission.component';
 import { ContactusComponent } from './contactus/contactus.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
+import { PreviewComponent } from './preview/preview.component';
 
 import { MdButtonModule, MdCardModule, MdSelectModule,
   MdNativeDateModule, MdInputModule, MdIconModule, MdDatepickerModule } from '@angular/material';
@@ -38,7 +39,8 @@ const ROUTES: Routes = [
   { path: 'courses',      component: CoursesComponent },
   { path: 'result',      component: StudentresultComponent },
   { path: 'onlineExam',      component: ExaminationComponent },
-  { path: 'verifyRegistraion',      component: VerifyadmissionComponent }
+  { path: 'verifyRegistraion',      component: VerifyadmissionComponent },
+  { path: 'previewForm',      component: PreviewComponent }
 ];
 
 
@@ -55,7 +57,8 @@ const ROUTES: Routes = [
     ExaminationComponent,
     VerifyadmissionComponent,
     ContactusComponent,
-    AboutusComponent
+    AboutusComponent,
+    PreviewComponent
   ],
   imports: [
     RouterModule.forRoot(

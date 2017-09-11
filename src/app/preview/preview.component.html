@@ -1,0 +1,38 @@
+<div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-12" style="text-align: center;"><h4>Preview Form Data</h4></div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-6">First Name</div>
+            <div class="col-xs-3 col-md-3">{{previewData.firstName}}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-6">Last Name</div>
+            <div class="col-xs-3 col-md-3">{{previewData.lastName}}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-6">Gender</div>
+            <div class="col-xs-3 col-md-3">{{previewData.selectedValue}}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-6">Date of Birth</div>
+            <div class="col-xs-3 col-md-3">{{previewData.dob}}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-6">Email</div>
+            <div class="col-xs-3 col-md-3">{{previewData.email}}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-6">Phone</div>
+            <div class="col-xs-3 col-md-3">{{previewData.phone}}</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6 col-md-6">Address</div>
+            <div class="col-xs-3 col-md-3">{{previewData.address}}</div>
+        </div>
+        <div class="row">
+            <button md-raised-button color="primary" type="button" (click)="saveRegistationData()" > Save </button>
+            <button md-raised-button color="primary" type="button" (click)="editRegistationData()" > Edit </button>
+        </div>
+              
+</div>

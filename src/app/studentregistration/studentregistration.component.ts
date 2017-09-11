@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {FormControl, Validators} from '@angular/forms';
 
 import { RegistrationData } from './studentregistration.model';
@@ -23,18 +24,25 @@ export class StudentregistrationComponent implements OnInit {
   email: string;
   selectedPhoto: any;
   selectedAadhar: any;
+  imageName : string;
+  aadharIdName : string;
 
-  constructor(private _dataService: RegistrationDataService) {
-    this.registerData = {
+  constructor(private _dataService: RegistrationDataService,private router : Router) {
+   
+  }
+
+  ngOnInit() {
+     this.registerData = {
 			firstName: '',
 			lastName: '',
 			email: '',
       phone: '',
-      address: ''
+      address: '',
+      
     };
-  }
-
-  ngOnInit() {
+    if(this._dataService.resetFormData){
+      this.registerData = this._dataService.resetFormData
+    }
     this.emailFormControl = new FormControl('', [
       Validators.required,
       Validators.pattern(this.EMAIL_REGEX)]);
@@ -42,26 +50,34 @@ export class StudentregistrationComponent implements OnInit {
 
   uploadImage(fileObj) {
     this.selectedPhoto = fileObj.path[0].files[0];
+    this.imageName = fileObj.path[0].files[0].name;
     console.log('Selected FIle :', fileObj);
   }
 
   uploadAadhar(aadharObj) {
     this.selectedAadhar = aadharObj.path[0].files[0];
+    this.aadharIdName = aadharObj.path[0].files[0].name
     console.log('Selected FIle :', this.selectedAadhar);
   }
 
   registerStudent(formValues) {
-   const formData = new FormData();
-   formData.append('profilePhoto', this.selectedPhoto);
-   formData.append('supportingDoc', this.selectedAadhar);
+   this._dataService.resetFormData = formValues;
+   let formData = new FormData();
+   formData.append('selectedPhoto', this.selectedPhoto);
+   formData.append('selectedAadhar', this.selectedAadhar);
    formData.append('firstName', formValues.firstName);
    formData.append('lastName', formValues.lastName);
    formData.append('email', formValues.email);
    formData.append('phone', formValues.phone);
    formData.append('address', formValues.address);
-
-   this._dataService.register(formData).subscribe(response => console.log(response));
+   this._dataService.saveFormModel=formData;
+   this.router.navigate(['/previewForm']);
+  // this._dataService.register(formData).subscribe(response => console.log(response));
   }
+
+  // preview(){
+  //   this.router.navigate(['/previewForm']);
+  // }
 }
 
 
