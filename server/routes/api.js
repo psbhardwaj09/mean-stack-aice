@@ -68,17 +68,17 @@ router.post('/registration', (req, res) => {
 
       console.log('targetPath : '+ targetPath);
 
-      fs.rename(temporal_path, targetPath, function(error) {
+      fs.rename(temporal_path,  targetPath, function(error) {
         if(error){
           if (error.code === 'EXDEV') {
               copy(temporal_path, targetPath, req, res);
           }  else {
           //  console.log("Uploaded successfully");
-            res.end("Uploaded successfully");
+            res.end("Uploaded successfully : "+ targetPath);
           }
         }else{
-          res.end("Uploaded successfully");
-        // console.log("Uploaded successfully");
+          //res.end("Uploaded successfully");
+         console.log("Uploaded successfully : ");
         }
 
       });

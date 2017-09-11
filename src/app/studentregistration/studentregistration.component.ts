@@ -28,7 +28,7 @@ export class StudentregistrationComponent implements OnInit {
   aadharIdName : string;
 
   constructor(private _dataService: RegistrationDataService,private router : Router) {
-   
+
   }
 
   ngOnInit() {
@@ -38,7 +38,7 @@ export class StudentregistrationComponent implements OnInit {
 			email: '',
       phone: '',
       address: '',
-      
+
     };
     if(this._dataService.resetFormData){
       this.registerData = this._dataService.resetFormData
@@ -56,13 +56,13 @@ export class StudentregistrationComponent implements OnInit {
 
   uploadAadhar(aadharObj) {
     this.selectedAadhar = aadharObj.path[0].files[0];
-    this.aadharIdName = aadharObj.path[0].files[0].name
+    this.aadharIdName = aadharObj.path[0].files[0].name;
     console.log('Selected FIle :', this.selectedAadhar);
   }
 
   registerStudent(formValues) {
    this._dataService.resetFormData = formValues;
-   let formData = new FormData();
+   const formData = new FormData();
    formData.append('selectedPhoto', this.selectedPhoto);
    formData.append('selectedAadhar', this.selectedAadhar);
    formData.append('firstName', formValues.firstName);
@@ -70,7 +70,7 @@ export class StudentregistrationComponent implements OnInit {
    formData.append('email', formValues.email);
    formData.append('phone', formValues.phone);
    formData.append('address', formValues.address);
-   this._dataService.saveFormModel=formData;
+   this._dataService.saveFormModel = formData;
    this.router.navigate(['/previewForm']);
   // this._dataService.register(formData).subscribe(response => console.log(response));
   }

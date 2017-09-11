@@ -12,27 +12,32 @@ router.post('/uploadResult', (req, res) => {
     let form = new multiparty.Form();
 
     form.on('file', function(name, file) {
-        console.log(" uploadingResult( " + name + " ) -> form.on( " + file.originalFilename + " )");
+      let fileName = file.originalFilename ;
+        console.log(" uploadingResult( " + name + " ) -> form.on( " + fileName + " )");
+
         var targetPath = './uploads/' + file.originalFilename;
         let temporal_path = file.path;
+        console.log('Split : ', fileName.split('.'));
 
-        if (['xls', 'xlsx'].indexOf(file.originalname.split('.')[file.originalname.split('.').length - 1]) === -1) {
+        if (['xls', 'xlsx'].indexOf(fileName.split('.')[fileName.split('.').length - 1]) === -1) {
             console.log('Wrong extension type');
             return;
         }
 
-        fs.rename(temporal_path, targetPath, function(error) {
-            if (error) {
-                if (error.code === 'EXDEV') {
-                    copy(temporal_path, targetPath, req, res);
-                } else {
-                    console.log("Uploaded successfully");
-                }
-            } else {
-                console.log("Uploaded successfully");
-                parseFile(req, res);
-            }
-        });
+        // fs.rename(temporal_path, targetPath, function(error) {
+        //     if (error) {
+        //         if (error.code === 'EXDEV') {
+        //             copy(temporal_path, targetPath, req, res);
+        //         } else {
+        //             console.log("Uploaded successfully");
+        //             parseFile(req, res);
+        //         }
+        //     } else {
+        //         console.log("Uploaded successfully");
+        //         parseFile(req, res);
+        //     }
+        // });
+        parseFile(file);
     });
 
     form.on('error', function(err) {
@@ -47,10 +52,11 @@ router.post('/uploadResult', (req, res) => {
 });
 
 
-function parseFile(req, res) {
+function parseFile(file) {
     let exceltojson;
-    console.log("parseFile Uploaded excel file : " + req.file.originalname);
-    if (req.file.originalname.split('.')[req.file.originalname.split('.').length - 1] === 'xlsx') {
+    let fileName = file.originalFilename ;
+    console.log("parseFile Uploaded excel file : " + fileName);
+    if (fileName.split('.')[fileName.split('.').length - 1] === 'xlsx') {
         exceltojson = xlsxtojson;
     } else {
         exceltojson = xlstojson;
@@ -58,17 +64,16 @@ function parseFile(req, res) {
 
     try {
         exceltojson({
-            input: req.file.path,
+            input: file.path,
             output: null, //since we don't need output.json
             lowerCaseHeaders: true
         }, function(err, result) {
             if (err) {
                 console.log('parseFile() - Error : ' + err);
                 return;
-                // return res.json({ error_code: 1, err_desc: err, data: null });
             }
             console.log('parseFile() - result : ' + result);
-            //res.json({ error_code: 0, err_desc: null, data: result });
+            console.dir(result);
         });
     } catch (err) {
         console.log('parseFile() - Corupted excel file : ' + err);
