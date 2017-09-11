@@ -10,18 +10,11 @@ var fstream = require('fstream');
 var mkdirp = require('mkdirp');
 var path = require('path');
 var request = require("request");
+const Student = require('../../models/student');
+const Counter = require('../../models/autoIncrement');
 
 var size = '';
 var fileName = '';
-
-// Connect
-const connection = (closure) => {
-    return MongoClient.connect('mongodb://localhost:27017/aice', (err, db) => {
-        if (err) return console.log(err);
-
-        closure(db);
-    });
-};
 
 // Error handling
 const sendError = (err, res) => {
@@ -36,77 +29,108 @@ let response = {
     data: [],
 };
 
-// Get users
+
 router.post('/registration', (req, res) => {
-  console.log('/registration');
+    console.log('/registration');
 
-  var form = new multiparty.Form();
-  var temporal_path, originalFileName, size;
-  var studentData ={};
+    var form = new multiparty.Form();
+    var temporal_path, originalFileName, size;
+    var studentData ={};
 
-  var folderPath = '/../../src/assets/UploadedFiles';
-  var uploadFilePath = __dirname + folderPath;
-  var targetPath;
-
-  form.on('field', function (field, value) {
-    console.log(" addLogFile() -> field : "+ field+", \t value : "+ value);
-    studentData[field] = value;
-  });
-
-  /* Parse the form submitted from UI */
-  form.on('file', function (name, file) {
-    console.log(" uploading() -> form.on("+file.originalFilename+")");
-    /* Get temporary path  and temporary filename*/
-    temporal_path = file.path;
-    originalFileName = file.originalFilename;
-    size = Number(file.size)/1000;
-
-    targetPath = uploadFilePath +"/" + originalFileName;
-
-    studentData["image"] = originalFileName;
-
-    if(!fs.existsSync(uploadFilePath)) {
-        fs.mkdir(uploadFilePath, 0777, function (err) {
-          if (err) console.error(err);
-          else{
-              console.log(' check_dir() -> created : ' + uploadFilePath);
-        }
-      });
-    }
+    var folderPath = '/../../src/assets/UploadedFiles';
+    var uploadFilePath = __dirname + folderPath;
 
 
-    console.log('targetPath : '+ targetPath);
+    form.on('field', function (field, value) {
+    // console.log(" addLogFile() -> field : "+ field+", \t value : "+ value);
+      studentData[field] = value;
+    });
 
-    fs.rename(temporal_path, targetPath, function(error) {
-      if(error){
-        if (error.code === 'EXDEV') {
-            copy(temporal_path, targetPath, req, res);
-        }  else {
-          console.log("Uploaded successfully");
-          response.data ={
-            "FileURL" :"/"
+    /* Parse the form submitted from UI */
+    form.on('file', function (name, file) {
+      console.log(" uploading("+name+") -> form.on("+file.originalFilename+")");
+      studentData[name] = file.originalFilename;
+      /* Get temporary path  and temporary filename*/
+      temporal_path = file.path;
+      originalFileName = file.originalFilename;
+      size = Number(file.size)/1000;
+
+      var targetPath = uploadFilePath +"/" + originalFileName;
+
+      if(!fs.existsSync(uploadFilePath)) {
+          fs.mkdir(uploadFilePath, 0777, function (err) {
+            if (err) console.error(err);
+            else{
+                console.log(' check_dir() -> created : ' + uploadFilePath);
           }
-          res.end("Uploaded successfully");
-        }
-      }else{
-        res.end("Uploaded successfully");
-        console.log("Uploaded successfully");
+        });
       }
 
+      console.log('targetPath : '+ targetPath);
+
+      fs.rename(temporal_path, targetPath, function(error) {
+        if(error){
+          if (error.code === 'EXDEV') {
+              copy(temporal_path, targetPath, req, res);
+          }  else {
+          //  console.log("Uploaded successfully");
+            res.end("Uploaded successfully");
+          }
+        }else{
+          res.end("Uploaded successfully");
+        // console.log("Uploaded successfully");
+        }
+
+      });
     });
+
+    form.on('error', function(err) {
+      console.log('Error parsing form: ' + err.stack);
+    });
+
+    form.on('close', function(){
+      let newStudent = new Student(studentData);
+      newStudent.save((error, student)=>{
+        if(error){
+            console.log('Unable to register - error', error);
+          // res.json({msg: 'Unable to register'});
+        }
+        else{
+            console.log('Student Registered Successfully- student :', student);
+          // res.json({msg: 'Student Registered Successfully'});
+        }
+      });
+    })
+
+    form.parse(req);
   });
 
-  form.on('error', function(err) {
-    console.log('Error parsing form: ' + err.stack);
-  });
 
-  form.on('close', function(){
-    console.log('Form Close -> Student Data : \n' + JSON.stringify(studentData));
-
+  router.get('/getStudents', (req, res) => {
+    console.log("----- getStudents ----  ");
+    Student.find((error, students)=>{
+     // response.data = students;
+     if(error){
+       console.log('Error while fetching data :'+ error);
+     }
+      console.log('Fetched Data : ', students);
+      response.data = students;
+      res.end(JSON.stringify(response));
+    });
   })
 
-  form.parse(req);
-});
+  router.get('/getStudent/:id', (req, res) => {
+    console.log("----- getStudent ----  ");
+    Student.findOne({_id: id}, (error, students)=>{
+     // response.data = students;
+     if(error){
+       console.log('Error while fetching data :'+ error);
+     }
+      console.log('Fetched Data : ', students);
+      response.data = students;
+      res.end(JSON.stringify(response));
+    });
+  })
 
 function copy(oldPath, newPath, req, res) {
   console.log('oldPath : '+ oldPath);
@@ -130,5 +154,7 @@ function copy(oldPath, newPath, req, res) {
 
     readStream.pipe(writeStream);
 }
+
+
 
 module.exports = router;
